@@ -2,7 +2,7 @@ FROM ubuntu:xenial
 
 # install pip
 RUN apt-get update && apt-get install -y \
-    python-pip wget\
+    python-pip wget unzip\
     && rm -rf /var/lib/apt/lists/
 
 RUN pip install --upgrade pip
