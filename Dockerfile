@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/
 
 RUN pip install --upgrade pip
-RUN pip install jupyter matplotlib scikit-learn pillow
+RUN pip install jupyter matplotlib scipy scikit-learn pillow
 
 ENV NB_USER jovyan
 ENV NB_UID 1000
