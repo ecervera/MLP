@@ -1,25 +1,18 @@
-FROM ubuntu:xenial
+# Choose your desired base image
+FROM jupyter/scipy-notebook:latest
 
-# install pip
-RUN apt-get update && apt-get install -y \
-    python-pip wget unzip\
-    && rm -rf /var/lib/apt/lists/
+# Create a Python 2.x environment using conda including at least the ipython kernel
+# and the kernda utility. Add any additional packages you want available for use
+# in a Python 2 notebook to the first line here (e.g., pandas, matplotlib, etc.)
+RUN conda create --quiet --yes -c openmdao -p $CONDA_DIR/envs/python2 python=2.7 \
+      ipython ipykernel kernda scikit-learn jupyterlab matplotlib pillow pyevolve && \
+    conda clean --all -y
 
-RUN pip install --upgrade pip
-RUN pip install jupyter matplotlib scipy scikit-learn pillow
-
-ENV NB_USER jovyan
-ENV NB_UID 1000
-ENV HOME /home/${NB_USER}
-
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
-
-# Make sure the contents of our repo are in ${HOME}
-COPY . ${HOME}
 USER root
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
-WORKDIR ${HOME}
+
+# Create a global kernelspec in the image and modify it so that it properly activates
+# the python2 conda environment.
+RUN $CONDA_DIR/envs/python2/bin/python -m ipykernel install && \
+$CONDA_DIR/envs/python2/bin/kernda -o -y /usr/local/share/jupyter/kernels/python2/kernel.json
+
+USER $NB_USER
