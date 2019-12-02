@@ -1,12 +1,19 @@
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ecervera/MLP/master?filepath=index.ipynb)
-# MLP
-Multi-Layer Perceptrons
+# Multi-Layer Perceptrons
 
-## Pre-requisites
+[Jupyter notebooks](https://jupyter.org/) with exercises of [multilayer perceptrons](https://en.wikipedia.org/wiki/Perceptron) with [Python](https://www.python.org/) and [scikit-learn](https://scikit-learn.org/).
 
-We recommend using Miniconda with Python 2.7 (64 bits):
+## Prerequisites
 
-* Conda quick install for [Windows / Linux / Mac](https://conda.io/miniconda.html)
-* After installling conda, open a terminal and run: 
+* [Docker](https://docs.docker.com/v17.09/engine/installation/)
 
-    conda install scikit-learn jupyter matplotlib pillow
+## Usage
+Run in a terminal:
+
+    git clone https://github.com/ecervera/MLP.git
+    cd perceptrons
+    docker build --rm -t mlp .
+    docker run -it --rm --volume="$(pwd):/home/jovyan/work:rw" \ 
+      -p 8888:8888 mlp start.sh jupyter lab --NotebookApp.token=''
+      
+Open this URL in your favourite browser: [http://localhost:8888/lab/tree/work/index.ipynb](http://localhost:8888/lab/tree/work/index.ipynb)
