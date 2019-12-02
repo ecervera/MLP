@@ -1,7 +1,7 @@
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ecervera/MLP/master?filepath=index.ipynb)
 # Multi-Layer Perceptrons
 
-[Jupyter notebooks](https://jupyter.org/) with exercises of [multilayer perceptrons](https://en.wikipedia.org/wiki/Perceptron) with [Python](https://www.python.org/) and [scikit-learn](https://scikit-learn.org/).
+[Jupyter notebooks](https://jupyter.org/) with exercises of [multilayer perceptrons](https://en.wikipedia.org/wiki/Multilayer_perceptron) with [Python](https://www.python.org/) and [scikit-learn](https://scikit-learn.org/).
 
 ## Prerequisites
 
