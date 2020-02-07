@@ -10,7 +10,7 @@
 Run in a terminal:
 
     git clone https://github.com/ecervera/MLP.git
-    cd perceptrons
+    cd MLP
     docker build --rm -t mlp .
     docker run -it --rm --volume="$(pwd):/home/jovyan/work:rw" \ 
       -p 8888:8888 mlp start.sh jupyter lab --NotebookApp.token=''
