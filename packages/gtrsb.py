@@ -29,7 +29,8 @@ def readTrafficSigns(rootpath, classes, tracks):
         prefix = rootpath + '/' + format(c, '05d') + '/' # subdirectory for class
         gtFile = open(prefix + 'GT-'+ format(c, '05d') + '.csv') # annotations file
         gtReader = csv.reader(gtFile, delimiter=';') # csv parser for annotations file
-        gtReader.next() # skip header
+        # gtReader.next() # skip header
+        next(gtReader)
         # loop over all images in current annotations file
         for row in gtReader:
             filename = row[0]
@@ -43,11 +44,13 @@ def readTrafficSigns(rootpath, classes, tracks):
         gtFile.close()
     return images, dims, ROIs, labels, filenames
 
-from scipy.misc import imresize
+# from scipy.misc import imresize
+from skimage.transform import resize
+
 from numpy import histogram, interp
 
 def histeq(im,nbr_bins=256):
-    imhist, bins = histogram(im.flatten(),nbr_bins,normed=True)
+    imhist, bins = histogram(im.flatten(),nbr_bins)
     cdf = imhist.cumsum() #cumulative distribution function
     cdf = 255 * cdf / cdf[-1] #normalize
     im2 = interp(im.flatten(),bins[:-1],cdf)
@@ -56,14 +59,14 @@ def histeq(im,nbr_bins=256):
 def processImage(img, roi, dx=20, dy=20):
     crop_img = img[roi[0][0]:roi[1][0],roi[0][1]:roi[1][1],:]
     planes = crop_img.shape[2]
-    sc_img = imresize(crop_img,(dx, dy, planes))
+    sc_img = resize(crop_img,(dx, dy, planes))
     R_img = sc_img[:,:,0]
     eq_img, cdf = histeq(R_img)
     return (eq_img-128)/256
 
 def plotTrafficSign(img, roi, dx=20, dy=20):
     crop_img = img[roi[0][0]:roi[1][0],roi[0][1]:roi[1][1],:]
-    sc_img = imresize(crop_img, (dx,dy,3))
+    sc_img = resize(crop_img, (dx,dy,3))
     R_img = sc_img[:,:,0]
     eq_img, cdf = histeq(R_img)
     norm_img = 2*(eq_img - 128) / 256
